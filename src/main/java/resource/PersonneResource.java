@@ -76,7 +76,7 @@ public class PersonneResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updatePersonne(@PathParam("id") int id, Personne personne) {
+	public Response updatePersonne(@PathParam("id") long id, Personne personne) {
 		personne.setId(id);
 		try {
 			return Response.ok(personneBusiness.update(personne)).build();

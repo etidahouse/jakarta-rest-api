@@ -13,7 +13,7 @@ import lombok.Data;
 public class Personne {
 
 	@Id
-	private int id;
+	private long id;
 	@Column(name = "name") // que si le nom de la variable est différent du nom du champ
 	private String name;
 	private int age;
