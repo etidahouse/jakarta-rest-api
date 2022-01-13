@@ -19,7 +19,7 @@ public class PersonneBusiness {
 		return personneDao.getAll();
 	}
 
-	public Personne get(int id) throws DAOException {
+	public Personne get(long id) throws DAOException {
 		return personneDao.get(id);
 	}
 
@@ -28,8 +28,8 @@ public class PersonneBusiness {
 		return personne;
 	}
 
-	public void delete(Personne personne) throws DAOException {
-		personneDao.delete(personne);
+	public void delete(long id) throws DAOException {
+		personneDao.delete(get(id));
 	}
 
 	public Personne update(Personne personne) throws DAOException {

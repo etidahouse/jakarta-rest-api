@@ -43,7 +43,7 @@ public class PersonneResource {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPersonne(@PathParam("id") int id) {
+	public Response getPersonne(@PathParam("id") long id) {
 		try {
 			return Response.ok(personneBusiness.get(id)).build();
 		} catch (DAOException e) {
@@ -63,9 +63,11 @@ public class PersonneResource {
 	}
 
 	@DELETE
-	public Response deletePersonne(Personne personne) {
+	@Path("{id}")
+	public Response deletePersonne(@PathParam("id") long id) {
+		System.out.println("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOo " + id);
 		try {
-			personneBusiness.delete(personne);
+			personneBusiness.delete(id);
 		} catch (DAOException e) {
 			return Response.status(500, e.getMessage()).build();
 		}
