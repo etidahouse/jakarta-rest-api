@@ -1,77 +1,50 @@
 package dao;
 
+import javax.inject.Singleton;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import entities.Personne;
-import exceptions.technical.DAOException;
-import jpa.JpaEntityManager;
 
-@Stateless
+@Singleton
 public class PersonneDao {
 
-	private static EntityManager entityManager = JpaEntityManager.getEntityManager();
+	private static PersonneDao personneDao;
 
-	public Personne get(long id) throws DAOException {
-		try {
-			return entityManager.find(Personne.class, id);
-		} catch (Exception e) {
-			throw new DAOException(e);
+	private static final List<Personne> personnes = Stream.of(
+		new Personne(0, "Etienne", 28),
+		new Personne(1, "Ernesto", 35)
+	).collect(Collectors.toList());
+
+
+	public Personne get(long id) {
+		return personnes.stream().filter(personne -> personne.getId() == id).findAny().orElse(null);
+	}
+
+	public Personne getByName(String name) {
+		return personnes.stream().filter(personne -> personne.getName().equals(name)).findAny().orElse(null);
+	}
+
+	public List<Personne> getAll() {
+		return Collections.unmodifiableList(personnes);
+	}
+
+	public void create(Personne entity) {
+		personnes.add(entity);
+	}
+
+	public void update(Personne entity) {
+		Personne oldPersonne = personnes.stream().filter(personne -> entity.getId() == personne.getId()).findAny().orElse(null);
+		if (oldPersonne != null) {
+			personnes.remove((int) entity.getId());
+			personnes.add(entity);
 		}
 	}
 
-	public Personne getByName(String name) throws DAOException {
-		try {
-			Query query = entityManager.createQuery("SELECT p FROM Personne p WHERE p.name=:ma_var_name");
-			query.setParameter("ma_var_name", name);
-			return (Personne) query.getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		} catch (Exception e) {
-			throw new DAOException(e);
-		}
-	}
-
-	public List<Personne> getAll() throws DAOException {
-		try {
-			return entityManager.createQuery("SELECT p FROM Personne p", Personne.class).getResultList();
-		} catch (Exception e) {
-			throw new DAOException(e);
-		}
-	}
-
-	public void create(Personne entity) throws DAOException {
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.persist(entity);
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DAOException(e);
-		}
-	}
-
-	public void update(Personne entity) throws DAOException {
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.merge(entity);
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DAOException(e);
-		}
-	}
-
-	public void delete(Personne entity) throws DAOException {
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.remove(entity);
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DAOException(e);
-		}
+	public void delete(Personne entity) {
+		personnes.remove((int) entity.getId());
 	}
 
 }

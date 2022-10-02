@@ -7,7 +7,6 @@ import javax.inject.Singleton;
 
 import dao.PersonneDao;
 import entities.Personne;
-import exceptions.technical.DAOException;
 
 @Singleton
 public class PersonneBusiness {
@@ -15,29 +14,27 @@ public class PersonneBusiness {
 	@Inject
 	private PersonneDao personneDao;
 
-	public List<Personne> getAllPersonnes() throws DAOException {
+	public List<Personne> getAllPersonnes() {
 		return personneDao.getAll();
 	}
 
-	public Personne get(long id) throws DAOException {
+	public Personne get(long id) {
 		return personneDao.get(id);
 	}
 
-	public Personne add(Personne personne) throws DAOException {
+	public void add(Personne personne) {
 		personneDao.create(personne);
-		return personne;
 	}
 
-	public void delete(long id) throws DAOException {
+	public void delete(long id) {
 		personneDao.delete(get(id));
 	}
 
-	public Personne update(Personne personne) throws DAOException {
+	public void update(Personne personne) {
 		personneDao.update(personne);
-		return personne;
 	}
 
-	public Personne search(String name) throws DAOException {
+	public Personne search(String name) {
 		return personneDao.getByName(name);
 	}
 

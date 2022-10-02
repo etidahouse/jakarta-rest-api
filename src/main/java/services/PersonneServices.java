@@ -15,10 +15,9 @@ import javax.ws.rs.core.Response;
 
 import business.PersonneBusiness;
 import entities.Personne;
-import exceptions.technical.DAOException;
 
 @Path("personnes")
-public class PersonneResource {
+public class PersonneServices {
 
 	@Inject
 	private PersonneBusiness personneBusiness;
@@ -33,44 +32,28 @@ public class PersonneResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllPersonnes() {
-		try {
-			return Response.ok(personneBusiness.getAllPersonnes()).build();
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		return Response.ok(personneBusiness.getAllPersonnes()).build();
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPersonne(@PathParam("id") long id) {
-		try {
-			return Response.ok(personneBusiness.get(id)).build();
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		return Response.ok(personneBusiness.get(id)).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addPersonne(Personne personne) {
-		try {
-			return Response.ok(personneBusiness.add(personne)).build();
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		personneBusiness.add(personne);
+		return Response.noContent().build();
 	}
 
 	@DELETE
 	@Path("{id}")
 	public Response deletePersonne(@PathParam("id") long id) {
-		System.out.println("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOo " + id);
-		try {
-			personneBusiness.delete(id);
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		personneBusiness.delete(id);
 		return Response.noContent().build();
 	}
 
@@ -79,23 +62,15 @@ public class PersonneResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updatePersonne(@PathParam("id") long id, Personne personne) {
-		personne.setId(id);
-		try {
-			return Response.ok(personneBusiness.update(personne)).build();
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		personneBusiness.update(personne);
+		return Response.noContent().build();
 	}
 	
 	@GET
 	@Path("search")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchPersonne(@QueryParam("name") String name) {
-		try {
-			return Response.ok(personneBusiness.search(name)).build();
-		} catch (DAOException e) {
-			return Response.status(500, e.getMessage()).build();
-		}
+		return Response.ok(personneBusiness.search(name)).build();
 	}
 	
 }
