@@ -1,4 +1,4 @@
-package resource;
+package services;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
