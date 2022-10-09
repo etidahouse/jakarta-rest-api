@@ -42,13 +42,3 @@ Get a personne :
 ```bash
 curl --location --request GET 'http://localhost:8085/api-rest/api/personnes/0'
 ```
-
-Auth :
-```bash
-curl --location --request POST 'http://localhost:8085/api-rest/api/auth' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "login": "login",
-    "password": "pass"
-}'
-```
