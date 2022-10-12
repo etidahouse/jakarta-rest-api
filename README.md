@@ -31,6 +31,7 @@ Create personne :
 ```bash
 curl --location --request POST 'http://localhost:8085/api-rest/api/personnes/' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer jwt' \
 --data-raw '{
     "id": 2,
     "age": 42,
@@ -40,7 +41,7 @@ curl --location --request POST 'http://localhost:8085/api-rest/api/personnes/' \
 
 Get a personne :
 ```bash
-curl --location --request GET 'http://localhost:8085/api-rest/api/personnes/0'
+curl --location --header 'Authorization: Bearer jwt' --request GET 'http://localhost:8085/api-rest/api/personnes/0'
 ```
 
 Auth :
